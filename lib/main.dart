@@ -67,11 +67,68 @@ class _HomePageState extends State<HomePage> {
             itemCount: doctors.length,
             itemBuilder: (context, index) {
               final doctor = doctors[index];
-              return ListTile(
-                title: Text(doctor['name']?.toString() ?? 'Unnamed Doctor'),
-                subtitle: Text(
-                  doctor['specialization']?.toString() ??
-                      'Unknown Specialization',
+              return Card(
+                margin: const EdgeInsets.all(10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundImage: NetworkImage(
+                              doctor['image_url'] ??
+                                  'https://static.vecteezy.com/system/resources/thumbnails/027/298/490/small/doctor-posing-portrait-free-photo.jpg',
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                doctor['name']?.toString() ?? 'Unnamed Doctor',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                doctor['specialization']?.toString() ??
+                                    'Unknown Specialization',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('Book Appointment'),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Call Us',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Doctor List App', home: HomePage());
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    );
   }
 }
 
@@ -29,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     const String apiKey =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppbmdndWRuY3hhbmJnbnF4eGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk0MzE2MDQsImV4cCI6MjA1NTAwNzYwNH0.EEPWc3wChpdRvUSSqjZ1qB9SiDxbdg-pchxVvYdUySw';
     const String bearerToken =
-        'eyJhbGciOiJIUzI1NiIsImtpZCI6IjU1NDlsSWtxRWxaZTZya1EiLCJ0eXAiOiJKV1QifQ.eyJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc0MDQ0NTExN31dLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwiYXVkIjoiYXV0aGVudGljYXRlZCIsImVtYWlsIjoiYnVkaUBleGFtcGxlLmNvbSIsImV4cCI6MTc0MDQ0ODcxNywiaWF0IjoxNzQwNDQ1MTE3LCJpc19hbm9ueW1vdXMiOmZhbHNlLCJpc3MiOiJodHRwczovL2ppbmdndWRuY3hhbmJnbnF4eGdwLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJwaG9uZSI6IiIsInJvbGUiOiJhdXRoZW50aWNhdGVkIiwic2Vzc2lvbl9pZCI6ImFhNDZmZjUzLWQ1NzUtNDg2Ni1hNTBmLWE1ZDA3NjRlZDM3MSIsInN1YiI6Ijc5MTgyYTFlLTJlNGItNDY1ZC1iNzQwLTc1OTU0OTgzYjdkNCIsInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJ1c2VyX3JvbGUiOiJ1c2VyIn0.acfWqldH-tqzipXWTFot_6SOX7twH4IzNU-_V16js6E';
+        'eyJhbGciOiJIUzI1NiIsImtpZCI6IjU1NDlsSWtxRWxaZTZya1EiLCJ0eXAiOiJKV1QifQ.eyJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc0MDQ1OTA5NH1dLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwiYXVkIjoiYXV0aGVudGljYXRlZCIsImVtYWlsIjoiYnVkaUBleGFtcGxlLmNvbSIsImV4cCI6MTc0MDQ2MjY5NCwiaWF0IjoxNzQwNDU5MDk0LCJpc19hbm9ueW1vdXMiOmZhbHNlLCJpc3MiOiJodHRwczovL2ppbmdndWRuY3hhbmJnbnF4eGdwLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJwaG9uZSI6IiIsInJvbGUiOiJhdXRoZW50aWNhdGVkIiwic2Vzc2lvbl9pZCI6ImJhZWVjZTUwLWQ0YTgtNGI0Ni04MWM1LTBhM2NkOTQyMGE0YyIsInN1YiI6Ijc5MTgyYTFlLTJlNGItNDY1ZC1iNzQwLTc1OTU0OTgzYjdkNCIsInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJ1c2VyX3JvbGUiOiJ1c2VyIn0.ocegAM4u9UQNE5b0ecG7TZaFFfhcxk0A7Tdl0dBMUCc';
 
     final response = await http.get(
       Uri.parse(url),
@@ -50,7 +53,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Doctors')),
+      backgroundColor: Colors.blueGrey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Doctor List',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 2,
+        leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
+      ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: fetchDoctors(),
         builder: (context, snapshot) {
@@ -64,24 +77,24 @@ class _HomePageState extends State<HomePage> {
 
           final doctors = snapshot.data!;
           return ListView.builder(
+            padding: const EdgeInsets.all(10),
             itemCount: doctors.length,
             itemBuilder: (context, index) {
               final doctor = doctors[index];
               return Card(
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(bottom: 15),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                elevation: 5,
                 child: Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           CircleAvatar(
-                            radius: 40,
+                            radius: 30,
                             backgroundImage: NetworkImage(
                               doctor['image_url'] ??
                                   'https://static.vecteezy.com/system/resources/thumbnails/027/298/490/small/doctor-posing-portrait-free-photo.jpg',
@@ -94,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                               Text(
                                 doctor['name']?.toString() ?? 'Unnamed Doctor',
                                 style: const TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -103,6 +116,7 @@ class _HomePageState extends State<HomePage> {
                                     'Unknown Specialization',
                                 style: const TextStyle(
                                   fontSize: 14,
+                                  fontStyle: FontStyle.italic,
                                   color: Colors.grey,
                                 ),
                               ),
@@ -112,17 +126,35 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 10),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ElevatedButton(
+                          TextButton(
                             onPressed: () {},
-                            child: const Text('Book Appointment'),
+                            child: const Text(
+                              'Call now',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14,
+                              ),
+                            ),
                           ),
                           TextButton(
                             onPressed: () {},
                             child: const Text(
-                              'Call Us',
-                              style: TextStyle(color: Colors.blue),
+                              'Book Appointment',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 700),
+                          CircleAvatar(
+                            radius: 18,
+                            backgroundColor: Colors.teal,
+                            child: const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 20,
                             ),
                           ),
                         ],
